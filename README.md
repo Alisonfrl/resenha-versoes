@@ -11,7 +11,7 @@
 <h3 align="center">
   <a href="https://github.com/Alisonfrl/resenha-versoes/releases/latest">⬇️ Baixar para Windows</a>
   &nbsp;·&nbsp;
-  <a href="https://alisonfrl.github.io/resenha-versoes/">📱 Abrir no celular / navegador</a>
+  <a href="https://resenhachat.online/">📱 Abrir no celular / navegador</a>
 </h3>
 
 ---
@@ -50,7 +50,7 @@ O **Resenha** é o nosso canto para jogar junto: chamada de voz, câmera, tela c
 
 ## No celular
 
-Abra **[alisonfrl.github.io/resenha-versoes](https://alisonfrl.github.io/resenha-versoes/)** no navegador. Dica: no menu do navegador, toque em **Adicionar à tela inicial** para ele ficar com cara de app.
+Abra **[resenhachat.online](https://resenhachat.online/)** no navegador. Dica: no menu do navegador, toque em **Adicionar à tela inicial** para ele ficar com cara de app.
 
 ---
 
