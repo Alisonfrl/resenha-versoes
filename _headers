@@ -1,0 +1,6 @@
+/*
+  Permissions-Policy: microphone=(self), camera=(self), display-capture=(self)
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+/vendor/*.wasm
+  Content-Type: application/wasm

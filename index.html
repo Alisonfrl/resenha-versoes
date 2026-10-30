@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Resenha</title>
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+<meta name="theme-color" content="#07090F">
+<meta name="apple-mobile-web-app-title" content="Resenha">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=mvvhi62v">
+</head>
+<body>
+
+<!-- Entrada: login, convite, esqueci a senha e avisos -->
+<div id="join" class="join">
+  <div class="join-card auth-card">
+    <div class="logo big" aria-hidden="true">
+      <svg width="60" height="60" viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#3DFF8F"/></linearGradient><radialGradient id="lb1" cx="0.5" cy="0.35" r="0.8"><stop offset="0" stop-color="#14203A"/><stop offset="1" stop-color="#07090F"/></radialGradient></defs><rect width="512" height="512" rx="116" fill="url(#lb1)"/><path d="M112 300v-48a144 144 0 0 1 288 0v48" fill="none" stroke="url(#lg1)" stroke-width="40" stroke-linecap="round"/><rect x="86" y="276" width="78" height="128" rx="30" fill="url(#lg1)"/><rect x="348" y="276" width="78" height="128" rx="30" fill="url(#lg1)"/><path d="M206 236h100a34 34 0 0 1 34 34v52a34 34 0 0 1-34 34h-38l-40 32v-32h-22a34 34 0 0 1-34-34v-52a34 34 0 0 1 34-34z" fill="#E8ECF4"/><g fill="#07090F"><circle cx="222" cy="296" r="12"/><circle cx="256" cy="296" r="12"/><circle cx="290" cy="296" r="12"/></g></svg>
+    </div>
+    <h1>Resenha</h1>
+
+    <section id="v-login" class="auth-view">
+      <form id="login-form" class="auth-form">
+        <label for="login-usuario" class="field-label">Usuário</label>
+        <input id="login-usuario" class="input" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <label for="login-senha" class="field-label">Senha</label>
+      <div class="pass-wrap">
+        <input id="login-senha" class="input" type="password" minlength="8" maxlength="72" autocomplete="current-password" required>
+        <button type="button" class="pass-toggle" data-alvo="login-senha" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <div class="row-between wrap">
+          <label class="check-row"><input type="checkbox" id="login-manter" checked> Manter conectado</label>
+          <button id="login-esqueci" type="button" class="link-btn">Esqueci minha senha</button>
+        </div>
+        <button id="login-btn" class="btn primary wide" type="submit">Entrar</button>
+        <p id="login-erro" class="error" role="alert"></p>
+      </form>
+      <p class="auth-note">Ainda não tem conta? O Resenha é só para convidados.<br>Peça um convite a quem te chamou.</p>
+    </section>
+
+    <section id="v-convite" class="auth-view" hidden>
+      <span id="cv-passo" class="tag-pill">Passo 1 de 3</span>
+      <h2 id="cv-titulo" class="auth-title">Você foi convidado!</h2>
+      <p id="cv-desc" class="muted"></p>
+      <form id="cv-dados" class="auth-form">
+        <label for="cv-email" class="field-label">E-mail</label>
+        <input id="cv-email" class="input" type="email" maxlength="120" autocomplete="email" required>
+        <span class="muted small">Para confirmar a conta e recuperar a senha.</span>
+        <label for="cv-usuario" class="field-label">Usuário</label>
+        <input id="cv-usuario" class="input" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <span class="muted small">De 3 a 20 letras minúsculas, números, ponto ou _. É o nome que aparece para todos.</span>
+        <button class="btn primary wide" type="submit">Continuar</button>
+      </form>
+      <form id="cv-codigo" class="auth-form" hidden>
+        <label for="cv-token" class="field-label">Código do e-mail</label>
+        <input id="cv-token" class="input code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="10" required>
+        <span class="muted small">Não chegou? Olhe o spam. O código vale por 1 hora.</span>
+        <div class="row-between wrap">
+          <button id="cv-reenviar" type="button" class="link-btn">Reenviar código</button>
+          <button id="cv-corrigir" type="button" class="link-btn">Corrigir e-mail</button>
+        </div>
+        <button class="btn primary wide" type="submit">Confirmar</button>
+      </form>
+      <form id="cv-senha" class="auth-form" hidden>
+        <label for="cv-senha1" class="field-label">Senha</label>
+      <div class="pass-wrap">
+        <input id="cv-senha1" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="button" class="pass-toggle" data-alvo="cv-senha1" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <label for="cv-senha2" class="field-label">Repetir senha</label>
+      <div class="pass-wrap">
+        <input id="cv-senha2" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="button" class="pass-toggle" data-alvo="cv-senha2" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <span class="muted small">Mínimo de 8 caracteres.</span>
+        <button class="btn primary wide" type="submit">Criar conta e entrar</button>
+      </form>
+      <p id="cv-erro" class="error" role="alert"></p>
+      <p id="cv-nota" class="auth-note"></p>
+      <div id="cv-web" class="auth-web web-only">
+        <button id="cv-abrir-app" type="button" class="btn wide">Já tenho o app no PC: abrir no app</button>
+        <a href="https://github.com/Alisonfrl/resenha-versoes/releases/latest" target="_blank" rel="noopener" class="link-btn">Baixar o app para Windows</a>
+      </div>
+    </section>
+
+    <section id="v-esqueci" class="auth-view" hidden>
+      <h2 class="auth-title">Esqueci minha senha</h2>
+      <form id="esq-usuario-form" class="auth-form">
+        <p class="muted">Vamos mandar um código para o e-mail da sua conta.</p>
+        <label for="esq-usuario" class="field-label">Usuário</label>
+        <input id="esq-usuario" class="input" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <button class="btn primary wide" type="submit">Enviar código</button>
+      </form>
+      <form id="esq-codigo-form" class="auth-form" hidden>
+        <p class="muted">Se o usuário existir, o código chegou no e-mail da conta. Olhe o spam também.</p>
+        <label for="esq-codigo" class="field-label">Código do e-mail</label>
+        <input id="esq-codigo" class="input code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="10" required>
+        <label for="esq-senha1" class="field-label">Senha nova</label>
+      <div class="pass-wrap">
+        <input id="esq-senha1" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="button" class="pass-toggle" data-alvo="esq-senha1" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <label for="esq-senha2" class="field-label">Repetir senha nova</label>
+      <div class="pass-wrap">
+        <input id="esq-senha2" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="button" class="pass-toggle" data-alvo="esq-senha2" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <button class="btn primary wide" type="submit">Trocar senha e entrar</button>
+      </form>
+      <p id="esq-erro" class="error" role="alert"></p>
+      <button id="esq-voltar" type="button" class="link-btn">Voltar para o login</button>
+    </section>
+
+    <section id="v-reset" class="auth-view" hidden>
+      <h2 class="auth-title">Criar senha nova</h2>
+      <p class="muted">Um admin gerou este link para você trocar a senha.</p>
+      <form id="reset-form" class="auth-form">
+        <label for="reset-senha1" class="field-label">Senha nova</label>
+      <div class="pass-wrap">
+        <input id="reset-senha1" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="button" class="pass-toggle" data-alvo="reset-senha1" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <label for="reset-senha2" class="field-label">Repetir senha nova</label>
+      <div class="pass-wrap">
+        <input id="reset-senha2" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="button" class="pass-toggle" data-alvo="reset-senha2" aria-label="Mostrar senha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+        <button class="btn primary wide" type="submit">Salvar e entrar</button>
+      </form>
+      <p id="reset-erro" class="error" role="alert"></p>
+    </section>
+
+    <section id="v-aviso" class="auth-view aviso-view" hidden>
+      <span id="aviso-icone" class="aviso-icone" aria-hidden="true"></span>
+      <h2 id="aviso-titulo" class="auth-title"></h2>
+      <p id="aviso-texto" class="muted"></p>
+      <button id="aviso-btn" type="button" class="btn primary wide">Entrar</button>
+    </section>
+  </div>
+</div>
+
+<!-- Atualização pronta (programa do Windows) -->
+<div id="abertura" class="abertura" role="status" aria-live="polite" hidden>
+  <div class="abertura-card">
+    <svg class="ab-logo" width="132" height="132" viewBox="0 0 512 512" aria-hidden="true">
+      <defs><linearGradient id="ab-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#3DFF8F"/></linearGradient><radialGradient id="ab-bg" cx="0.5" cy="0.35" r="0.8"><stop offset="0" stop-color="#14203A"/><stop offset="1" stop-color="#07090F"/></radialGradient></defs>
+      <rect class="ab-fundo" width="512" height="512" rx="116" fill="url(#ab-bg)"/>
+      <path class="ab-arco" pathLength="1" d="M112 300v-48a144 144 0 0 1 288 0v48" fill="none" stroke="url(#ab-g)" stroke-width="36" stroke-linecap="round"/>
+      <rect class="ab-concha ab-esq" x="86" y="276" width="78" height="128" rx="30" fill="url(#ab-g)"/>
+      <rect class="ab-concha ab-dir" x="348" y="276" width="78" height="128" rx="30" fill="url(#ab-g)"/>
+      <g class="ab-balao"><path d="M206 236h100a34 34 0 0 1 34 34v52a34 34 0 0 1-34 34h-38l-40 32v-32h-22a34 34 0 0 1-34-34v-52a34 34 0 0 1 34-34z" fill="#E8ECF4"/>
+      <circle class="ab-ponto" cx="222" cy="296" r="12" fill="#07090F"/><circle class="ab-ponto" cx="256" cy="296" r="12" fill="#07090F"/><circle class="ab-ponto" cx="290" cy="296" r="12" fill="#07090F"/></g>
+    </svg>
+    <strong class="ab-nome">Resenha</strong>
+    <span id="abertura-texto" class="muted small ab-texto">Procurando atualização…</span>
+  </div>
+</div>
+<div id="update-bar" class="update-bar" role="status" hidden>
+  <span>Nova versão do Resenha <strong id="update-version"></strong> pronta.</span>
+  <button id="update-now" class="btn small-btn primary" type="button">Reiniciar agora</button>
+  <button id="update-later" class="link-btn" type="button">Depois</button>
+</div>
+
+<!-- Saguão: a "casa" do Resenha (quem está online, call do grupo, chat geral e privado) -->
+<div id="lobby" class="saguao" hidden>
+  <aside class="sg-lista" id="sg-lista">
+    <div class="sg-marca"><svg width="32" height="32" viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#3DFF8F"/></linearGradient><radialGradient id="lb2" cx="0.5" cy="0.35" r="0.8"><stop offset="0" stop-color="#14203A"/><stop offset="1" stop-color="#07090F"/></radialGradient></defs><rect width="512" height="512" rx="116" fill="url(#lb2)"/><path d="M112 300v-48a144 144 0 0 1 288 0v48" fill="none" stroke="url(#lg2)" stroke-width="40" stroke-linecap="round"/><rect x="86" y="276" width="78" height="128" rx="30" fill="url(#lg2)"/><rect x="348" y="276" width="78" height="128" rx="30" fill="url(#lg2)"/><path d="M206 236h100a34 34 0 0 1 34 34v52a34 34 0 0 1-34 34h-38l-40 32v-32h-22a34 34 0 0 1-34-34v-52a34 34 0 0 1 34-34z" fill="#E8ECF4"/><g fill="#07090F"><circle cx="222" cy="296" r="12"/><circle cx="256" cy="296" r="12"/><circle cx="290" cy="296" r="12"/></g></svg><b>Resenha</b><button id="sg-recolher" class="icon-btn sg-recolher" type="button" title="Recolher a barra" aria-label="Recolher a barra do grupo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/><path d="M4 4v16"/></svg></button></div>
+    <section id="sg-call" class="sg-call" aria-label="Call do grupo">
+      <div class="sg-call-topo"><span id="sg-call-titulo">Call do grupo</span><span id="sg-call-desde" class="muted small"></span></div>
+      <div id="sg-call-av" class="sg-call-av"></div>
+      <button id="lobby-join" class="btn sg-entrar" type="button">Entrar na call</button>
+    </section>
+    <div class="sg-estado"><span id="lobby-state" class="muted small" role="status"></span><button id="lobby-refresh" class="link-btn" hidden>Tentar de novo</button>
+      <button id="sg-convidar" class="sg-convidar" type="button" hidden title="Gerar um convite para um amigo entrar no grupo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Convidar</button></div>
+    <div class="sg-pessoas" id="sg-pessoas">
+      <div class="sg-sec">Online — <span id="sg-n-on">0</span></div>
+      <div id="sg-online" class="sg-grupo"></div>
+      <div class="sg-sec">Offline — <span id="sg-n-off">0</span></div>
+      <div id="sg-offline" class="sg-grupo"></div>
+    </div>
+    <div class="sg-eu">
+      <button id="sg-eu-btn" class="sg-eu-btn" type="button" aria-haspopup="menu" aria-label="Seu status">
+        <span id="sg-eu-av" class="msg-avatar sg-av"></span>
+        <span class="sg-who"><strong id="lobby-name"></strong><span id="sg-eu-status" class="small"></span></span>
+      </button>
+      <span class="sg-icones">
+        <button id="lobby-membros" class="icon-btn" type="button" aria-label="Membros" title="Membros" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </button>
+        <button id="lobby-conta" class="icon-btn" type="button" aria-label="Minha conta" title="Minha conta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        </button>
+        <button id="sg-config" class="icon-btn" type="button" aria-label="Configurações" title="Configurações">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <button id="sg-sair" class="icon-btn sg-sair" type="button" aria-label="Sair da conta" title="Sair da conta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </span>
+    </div>
+  </aside>
+  <main id="sg-centro" class="sg-centro" aria-label="Chat"></main>
+  <aside id="sg-perfil" class="sg-perfil" aria-label="Perfil"></aside>
+  <nav class="sg-abas" aria-label="Seções do saguão">
+    <button id="sg-aba-grupo" class="tab active" type="button">Grupo</button>
+    <button id="sg-aba-chat" class="tab" type="button">Chat <span id="sg-chat-dot" class="unread-dot" hidden></span></button>
+  </nav>
+</div>
+
+<!-- Menu de status (saguão e call) -->
+<div id="status-menu" class="status-menu" role="menu" hidden>
+  <button type="button" class="st-op" data-p="disponivel" role="menuitemradio"><i class="st-bola disponivel"></i><span><strong>Disponível</strong></span></button>
+  <button type="button" class="st-op" data-p="ausente" role="menuitemradio"><i class="st-bola ausente"></i><span><strong>Ausente</strong><small>Fica sozinho depois de 15 min parado</small></span></button>
+  <button type="button" class="st-op" data-p="np" role="menuitemradio"><i class="st-bola np"></i><span><strong>Não perturbe</strong><small>Sem sons nem avisos</small></span></button>
+  <div class="st-sep"></div>
+  <label for="st-frase" class="st-label">Frase de status</label>
+  <input id="st-frase" class="input" maxlength="60" placeholder="Ex.: Volto às 20h" autocomplete="off">
+  <label class="toggle-row st-jogo desktop-only"><span>Mostrar o jogo que estou jogando</span><input type="checkbox" id="st-mostrar-jogo"></label>
+  <div class="st-sep st-sair-sep"></div>
+  <button type="button" id="st-sair" class="st-op st-sair" role="menuitem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span><strong>Sair da conta</strong></span></button>
+</div>
+
+<!-- Sala -->
+<div id="app" class="app" hidden>
+  <header class="topbar">
+    <button id="sg-expandir" class="icon-btn sg-expandir" type="button" title="Mostrar a barra do grupo" aria-label="Mostrar a barra do grupo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/><path d="M20 4v16"/></svg></button>
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="lg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#3DFF8F"/></linearGradient><radialGradient id="lb3" cx="0.5" cy="0.35" r="0.8"><stop offset="0" stop-color="#14203A"/><stop offset="1" stop-color="#07090F"/></radialGradient></defs><rect width="512" height="512" rx="116" fill="url(#lb3)"/><path d="M112 300v-48a144 144 0 0 1 288 0v48" fill="none" stroke="url(#lg3)" stroke-width="40" stroke-linecap="round"/><rect x="86" y="276" width="78" height="128" rx="30" fill="url(#lg3)"/><rect x="348" y="276" width="78" height="128" rx="30" fill="url(#lg3)"/><path d="M206 236h100a34 34 0 0 1 34 34v52a34 34 0 0 1-34 34h-38l-40 32v-32h-22a34 34 0 0 1-34-34v-52a34 34 0 0 1 34-34z" fill="#E8ECF4"/><g fill="#07090F"><circle cx="222" cy="296" r="12"/><circle cx="256" cy="296" r="12"/><circle cx="290" cy="296" r="12"/></g></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Resenha</span>
+        <span class="muted small">Sala dos amigos</span>
+      </div>
+    </div>
+    <div class="top-right">
+      <span id="private-bar" class="pill private-pill" hidden>Call privada <strong id="private-with"></strong></span>
+      <button id="status-btn" class="pill neutral status-btn" type="button" aria-haspopup="menu" aria-label="Seu status"><i id="status-btn-bola" class="st-bola disponivel"></i><span id="status-btn-txt">Disponível</span></button>
+      <span class="pill neutral" title="Tempo de resposta da conexão"><span id="ping-dot" class="dot gray"></span><span id="ping">Ping —</span></span>
+      <span id="watchers" class="pill neutral" hidden></span>
+      <span class="pill"><span class="dot"></span><span id="count">1 na call</span></span>
+      <button id="usage-btn" class="icon-btn" aria-label="Consumo do mês">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/></svg>
+      </button>
+      <button id="conta-btn" class="icon-btn" aria-label="Minha conta">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      </button>
+      <button id="settings-btn" class="icon-btn" aria-label="Configurações">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="stage" aria-label="Chamada">
+      <div id="share" class="shares" hidden></div>
+      <div id="tiles" class="tiles"></div>
+    </section>
+
+    <aside id="chat-panel" class="chat" aria-label="Canal de texto">
+      <div class="chat-head">
+        <div id="chat-tabs" class="chat-tabs" role="tablist" aria-label="Conversas">
+          <button id="tab-geral" class="chat-tab active" type="button" role="tab" aria-selected="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6B80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg><span>geral</span></button>
+        </div>
+      </div>
+      <div id="messages" class="messages" aria-live="polite"></div>
+      <form id="chat-form" class="chat-form">
+        <label for="chat-image" class="attach-btn" title="Enviar foto ou arquivo (até 10 MB)" aria-label="Enviar foto ou arquivo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </label>
+        <input id="chat-image" type="file" multiple class="sr">
+        <label for="chat-input" class="sr">Mensagem</label>
+        <input id="chat-input" class="input" placeholder="Mensagem em #geral" title="Dica: @nome avisa a pessoa, @todos avisa todo mundo. Ctrl+V cola um print" maxlength="1000" autocomplete="off">
+        <button class="send-btn" type="submit" aria-label="Enviar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+        </button>
+      </form>
+    </aside>
+  </main>
+
+  <nav class="mobile-tabs" aria-label="Seções">
+    <button id="tab-call" class="tab active" type="button">Call</button>
+    <button id="tab-chat" class="tab" type="button">Chat <span id="chat-dot" class="unread-dot" hidden></span></button>
+  </nav>
+  <footer class="controls">
+    <div class="control-bar">
+      <button id="mic-btn" class="ctrl on" aria-pressed="true" title="Ligar ou desligar o microfone">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg>
+        <span>Microfone</span>
+      </button>
+      <button id="deaf-btn" class="ctrl" aria-pressed="false" aria-label="Ensurdecer (não ouvir ninguém)" title="Ensurdecer: para de ouvir a call e desliga seu microfone">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg>
+        <span>Áudio</span>
+      </button>
+      <span class="divider" aria-hidden="true"></span>
+      <button id="cam-btn" class="ctrl" aria-pressed="false" title="Ligar ou desligar a câmera">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        <span>Câmera</span>
+      </button>
+      <button id="flip-btn" class="ctrl" aria-label="Trocar câmera (frontal / traseira)" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7h-3l-2-3H9L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M15.5 13.5a3.5 3.5 0 0 1-6.3 1.7M8.5 12.5a3.5 3.5 0 0 1 6.3-1.7"/><path d="M15 9.5v1.5h-1.5M9 16.5V15h1.5"/></svg>
+        <span>Virar</span>
+      </button>
+      <button id="screen-btn" class="ctrl" aria-pressed="false" title="Compartilhar uma tela ou janela">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M9 10l3-3 3 3M12 7v6"/></svg>
+        <span>Tela</span>
+      </button>
+      <span class="divider" aria-hidden="true"></span>
+      <button id="noise-btn" class="ctrl on" aria-pressed="true" title="Redução de ruído do microfone">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h3l3-7 4 14 3-9 2 2h5"/></svg>
+        <span>Ruído</span>
+      </button>
+      <button id="sounds-btn" class="ctrl" aria-label="Sons" title="Sons de meme para a call">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <span>Sons</span>
+      </button>
+      <span class="divider"></span>
+      <button id="leave-btn" class="ctrl danger" title="Sair da call">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91"/><path d="M23 1L1 23"/></svg>
+        <span>Sair</span>
+      </button>
+    </div>
+    <span id="ptt-hint" class="muted small" hidden></span>
+  </footer>
+  <button id="audio-unlock" class="audio-unlock" type="button" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
+    O som foi pausado. Toque aqui para voltar a ouvir.
+  </button>
+  <div id="audio-sink" hidden></div>
+</div>
+
+<!-- Escolher tela -->
+<div id="picker" class="modal" hidden>
+  <div class="modal-card wide-card" role="dialog" aria-modal="true" aria-labelledby="picker-title">
+    <h2 id="picker-title">O que você quer compartilhar?</h2>
+    <div id="sources" class="sources"></div>
+    <label class="check-row">
+      <input type="checkbox" id="share-audio">
+      <span>
+        <strong>Incluir o som do computador</strong>
+        <span class="muted small" id="share-audio-dica">Funciona compartilhando a tela inteira. O som do Resenha (vozes, sons e avisos) não vai junto.</span>
+      </span>
+    </label>
+    <div class="modal-actions">
+      <button id="picker-cancel" class="btn">Cancelar</button>
+      <button id="picker-ok" class="btn primary" disabled>Compartilhar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sons -->
+<div id="sounds" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="sounds-title">
+    <div class="row-between">
+      <h2 id="sounds-title">Sons</h2>
+      <button id="sounds-stop" class="btn">Parar sons</button>
+    </div>
+    <p class="muted">Clique para tocar para todo mundo na call.</p>
+    <div id="sound-grid" class="sound-grid"></div>
+    <button id="sounds-restore" class="link-btn" hidden>Restaurar os sons padrão</button>
+    <section class="card">
+      <div class="row-between wrap">
+        <span class="stack">
+          <strong>Adicionar som</strong>
+          <span class="muted small">MP3, WAV ou OGG de até 10 segundos e 1 MB. Dá para escolher vários de uma vez.</span>
+        </span>
+        <label for="sound-file" class="btn small-btn">Escolher arquivo</label>
+        <input id="sound-file" type="file" accept="audio/*" class="sr" multiple>
+      </div>
+      <div class="sep"></div>
+      <label for="sound-volume" class="field-label">Volume dos sons para você</label>
+      <input id="sound-volume" type="range" min="0" max="100">
+      <label class="toggle-row">
+        <span class="stack"><strong>Ouvir sons dos amigos</strong><span class="muted small">Desligue se alguém exagerar.</span></span>
+        <input type="checkbox" id="sound-enabled">
+      </label>
+    </section>
+    <div class="modal-actions">
+      <button id="sounds-close" class="btn primary">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Imagem ampliada -->
+<div id="viewer" class="viewer" hidden>
+  <img id="viewer-img" alt="Imagem enviada no chat">
+  <button id="viewer-close" class="icon-btn viewer-close" aria-label="Fechar imagem">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+</div>
+
+<!-- Consumo -->
+<div id="usage" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="usage-title">
+    <h2 id="usage-title">Consumo do mês</h2>
+    <p class="muted">Estimativa do grupo no plano grátis do LiveKit. Zera no dia 1º.</p>
+
+    <section class="card">
+      <div class="row-between">
+        <strong>Minutos</strong>
+        <span id="usage-min-text" class="small"></span>
+      </div>
+      <div class="bar"><div id="usage-min-bar" class="bar-fill"></div></div>
+      <span class="muted small">Cada pessoa conectada conta separado. Limite: 5.000 por mês.</span>
+    </section>
+
+    <section class="card">
+      <div class="row-between">
+        <strong>Dados de vídeo e áudio</strong>
+        <span id="usage-gb-text" class="small"></span>
+      </div>
+      <div class="bar"><div id="usage-gb-bar" class="bar-fill"></div></div>
+      <span class="muted small">A tela compartilhada é o que mais gasta. Limite: 50 GB por mês.</span>
+    </section>
+
+    <section class="card">
+      <strong>Por pessoa</strong>
+      <div id="usage-list" class="usage-list"></div>
+      <span class="muted small">Só entra aqui quem esteve numa call com você neste mês ou com alguém que esteve.</span>
+    </section>
+
+    <div class="modal-actions">
+      <button id="usage-dashboard" class="btn">Ver no painel do LiveKit</button>
+      <button id="usage-close" class="btn primary">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Configurações -->
+<div id="settings" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <h2 id="settings-title">Configurações</h2>
+    <div class="tabs" role="tablist" aria-label="Seções das configurações">
+      <button type="button" class="tab-btn active" role="tab" data-tab="voz" aria-selected="true">Voz</button>
+      <button type="button" class="tab-btn" role="tab" data-tab="video" aria-selected="false">Vídeo</button>
+      <button type="button" class="tab-btn" role="tab" data-tab="atalhos" aria-selected="false">Atalhos</button>
+      <button type="button" class="tab-btn" role="tab" data-tab="aparencia" aria-selected="false">Aparência</button>
+      <button type="button" class="tab-btn desktop-only" role="tab" data-tab="geral" aria-selected="false">Geral</button>
+      <button type="button" class="tab-btn desktop-only" role="tab" data-tab="celular" aria-selected="false">Celular</button>
+    </div>
+
+    <section data-tab="aparencia" class="card" hidden>
+      <span class="field-label" id="tema-rotulo">Tema</span>
+      <div class="temas" role="radiogroup" aria-labelledby="tema-rotulo">
+        <button type="button" class="tema-op" role="radio" data-tema="escuro" aria-checked="true"><span class="tema-amostra escuro"><i></i><b></b></span>Escuro</button>
+        <button type="button" class="tema-op" role="radio" data-tema="claro" aria-checked="false"><span class="tema-amostra claro"><i></i><b></b></span>Claro</button>
+        <button type="button" class="tema-op" role="radio" data-tema="auto" aria-checked="false"><span class="tema-amostra auto"><i></i><b></b></span>Automático</button>
+      </div>
+      <span class="muted small">Automático segue o tema do seu aparelho (Windows ou celular).</span>
+    </section>
+
+    <section data-tab="aparencia" class="card" hidden>
+      <span class="field-label" id="pacotes-rotulo">Sons de aviso</span>
+      <div class="pacotes" id="pacotes-sons" role="radiogroup" aria-labelledby="pacotes-rotulo"></div>
+      <span class="muted small">Entrar e sair da call, mensagens, menções e quem ficou online. Vale só para este aparelho.</span>
+    </section>
+
+    <section data-tab="voz" class="card">
+      <label for="mic-select" class="field-label">Microfone</label>
+      <select id="mic-select" class="input"></select>
+      <label for="out-select" class="field-label">Saída de áudio</label>
+      <select id="out-select" class="input"></select>
+    </section>
+
+    <section data-tab="voz" class="card">
+      <span class="field-label">Modo de transmissão</span>
+      <div class="modes">
+        <label class="mode">
+          <input type="radio" name="mode" value="voice">
+          <span><strong>Ativação por voz</strong><span class="muted small">Transmite sozinho quando você fala.</span></span>
+        </label>
+        <label class="mode">
+          <input type="radio" name="mode" value="ptt">
+          <span><strong>Push-to-talk</strong><span class="muted small">Só transmite segurando uma tecla.</span></span>
+        </label>
+      </div>
+
+      <div id="sens-block" class="sens">
+        <div class="row-between">
+          <label for="sens" class="field-label">Sensibilidade</label>
+          <span class="muted small">Fale algo para testar</span>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter"><div id="meter-fill" class="meter-fill"></div></div>
+          <div id="meter-line" class="meter-line" aria-hidden="true"></div>
+          <input id="sens" class="meter-range" type="range" min="0" max="100" step="1" aria-label="Limite da voz: arraste a linha">
+        </div>
+        <span id="sens-ajuda" class="muted small">Arraste a linha: só sai o que passar dela. A barra fica verde quando sua voz está saindo.</span>
+        <label class="toggle-row">
+          <span class="stack"><strong>Sensibilidade automática</strong><span class="muted small">Aprende o barulho de fundo e só transmite quando você fala acima dele.</span></span>
+          <input type="checkbox" id="autosens-toggle">
+        </label>
+      </div>
+
+      <div id="ptt-block" class="row-between wrap">
+        <span class="stack">
+          <strong>Tecla do push-to-talk</strong>
+          <span id="ptt-note" class="muted small">Funciona mesmo com o jogo aberto.</span>
+        </span>
+        <span class="row">
+          <kbd id="ptt-key">V</kbd>
+          <button id="ptt-change" class="btn">Alterar</button>
+        </span>
+      </div>
+    </section>
+
+    <section data-tab="video" class="card" id="cambg-block">
+      <span class="field-label">Fundo da câmera</span>
+      <span class="muted small">Só você escolhe o seu. Os amigos veem o fundo trocado.</span>
+      <div id="cambg-list" class="cambg-list"></div>
+    </section>
+
+    <section data-tab="video" class="card">
+      <span class="field-label">Qualidade da tela compartilhada</span>
+      <span class="muted small">Se alguém reclamar de travadas, use uma qualidade menor.</span>
+      <div class="modes three">
+        <label class="mode">
+          <input type="radio" name="quality" value="low">
+          <span><strong>Econômica</strong><span class="muted small">720p, 30 fps. Para internet fraca.</span></span>
+        </label>
+        <label class="mode">
+          <input type="radio" name="quality" value="high">
+          <span><strong>Alta</strong><span class="muted small">1080p, 30 fps. Recomendada.</span></span>
+        </label>
+        <label class="mode">
+          <input type="radio" name="quality" value="max">
+          <span><strong>Máxima</strong><span class="muted small">1080p, 60 fps. Para jogos rápidos e internet boa.</span></span>
+        </label>
+      </div>
+      <div class="sep"></div>
+      <span class="field-label">Qualidade da câmera</span>
+      <div class="modes four">
+        <label class="mode"><input type="radio" name="camquality" value="low"><span><strong>Baixa</strong><span class="muted small">360p. Economiza internet.</span></span></label>
+        <label class="mode"><input type="radio" name="camquality" value="mid"><span><strong>Média</strong><span class="muted small">540p.</span></span></label>
+        <label class="mode"><input type="radio" name="camquality" value="high"><span><strong>Alta</strong><span class="muted small">720p. Recomendada.</span></span></label>
+        <label class="mode"><input type="radio" name="camquality" value="full"><span><strong>Full HD</strong><span class="muted small">1080p. Câmera boa e internet boa.</span></span></label>
+      </div>
+    </section>
+
+    <section data-tab="voz" class="card">
+      <label class="toggle-row">
+        <span class="stack"><strong>Redução de ruído</strong><span class="muted small">Corta teclado, ventilador e barulho de fundo.</span></span>
+        <input type="checkbox" id="noise-toggle">
+      </label>
+      <div class="modes three">
+        <label class="mode"><input type="radio" name="noiselevel" value="light"><span><strong>Leve</strong><span class="muted small">RNNoise. Voz bem natural, para ambiente silencioso.</span></span></label>
+        <label class="mode"><input type="radio" name="noiselevel" value="normal"><span><strong>Normal</strong><span class="muted small">GTCRN. Corta ventilador e teclado sem pesar no PC. Recomendado.</span></span></label>
+        <label class="mode"><input type="radio" name="noiselevel" value="strong"><span><strong>Forte</strong><span class="muted small">DeepFilterNet3, a IA mais forte: ventilador, ar-condicionado e jogo vazando do fone. Usa mais o processador.</span></span></label>
+      </div>
+      <label class="toggle-row">
+        <span class="stack"><strong>Ouvir meu microfone</strong><span id="monitor-note" class="muted small">Para testar: você se ouve exatamente como os amigos ouvem (com o filtro e a linha da sensibilidade).</span></span>
+        <input type="checkbox" id="monitor-toggle">
+      </label>
+      <div class="sep"></div>
+      <label class="toggle-row">
+        <span class="stack"><strong>Cancelamento de eco</strong><span class="muted small">Útil para quem joga sem fone.</span></span>
+        <input type="checkbox" id="echo-toggle">
+      </label>
+      <label class="toggle-row">
+        <span class="stack"><strong>Ganho automático do microfone</strong><span class="muted small">Aumenta sua voz quando fala baixo, mas também traz mais som de fundo. Deixe desligado se o som do fone vaza.</span></span>
+        <input type="checkbox" id="agc-toggle">
+      </label>
+    </section>
+
+    <section data-tab="geral" class="card desktop-only">
+      <label class="toggle-row">
+        <span class="stack"><strong>Iniciar com o Windows</strong><span class="muted small">Abre escondido na bandeja quando o PC liga.</span></span>
+        <input type="checkbox" id="autostart-settings">
+      </label>
+    </section>
+
+    <section data-tab="celular" class="card desktop-only">
+      <label class="toggle-row">
+        <span class="stack"><strong>Controlar pelo celular</strong><span class="muted small">Seu celular vira um painel de sons deste PC. Precisa estar no mesmo Wi-Fi. Mostra os mesmos sons daqui: os que você escondeu não aparecem.</span></span>
+        <input type="checkbox" id="deck-toggle">
+      </label>
+      <div id="deck-info" class="deck-info" hidden>
+        <div id="deck-qr" class="deck-qr" aria-label="QR code para abrir no celular"></div>
+        <div class="stack">
+          <span class="muted small">Aponte a câmera do celular para o QR code. Ou abra no navegador do celular:</span>
+          <strong id="deck-url" class="deck-url"></strong>
+          <span class="muted small">Código de acesso</span>
+          <strong id="deck-pin" class="deck-pin"></strong>
+          <span id="deck-clients" class="deck-clients">Nenhum celular conectado</span>
+          <span class="muted small">Se o Windows perguntar sobre o firewall, permita em "Redes privadas".</span>
+        </div>
+      </div>
+    </section>
+
+    <section data-tab="atalhos" class="card">
+      <span class="field-label">Atalhos globais</span>
+      <span id="keys-note" class="muted small">Funcionam mesmo com o jogo aberto.</span>
+      <div class="row-between wrap">
+        <strong>Mutar e desmutar</strong>
+        <span class="row">
+          <kbd id="mute-key">—</kbd>
+          <button id="mute-change" class="btn">Alterar</button>
+          <button id="mute-clear" class="link-btn">Limpar</button>
+        </span>
+      </div>
+      <div class="row-between wrap">
+        <strong>Abrir os sons</strong>
+        <span class="row">
+          <kbd id="sounds-key">—</kbd>
+          <button id="sounds-change" class="btn">Alterar</button>
+          <button id="sounds-clear" class="link-btn">Limpar</button>
+        </span>
+      </div>
+    </section>
+
+    <section data-tab="geral" class="card desktop-only">
+      <label class="toggle-row">
+        <span class="stack"><strong>Overlay no jogo</strong><span class="muted small">Mostra quem está na call e quem está falando por cima do jogo. Funciona com o jogo em janela ou "tela cheia em janela" (sem bordas), não em tela cheia exclusiva.</span></span>
+        <input type="checkbox" id="overlay-toggle">
+      </label>
+      <label for="overlay-corner" class="field-label">Posição</label>
+      <select id="overlay-corner" class="input">
+        <option value="top-left">Canto superior esquerdo</option>
+        <option value="top-right">Canto superior direito</option>
+        <option value="bottom-left">Canto inferior esquerdo</option>
+        <option value="bottom-right">Canto inferior direito</option>
+      </select>
+    </section>
+
+    <div class="modal-actions">
+      <button id="settings-close" class="btn primary">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmar saída (botão Voltar do navegador) -->
+<!-- Novidades: aparece uma vez depois de cada atualização -->
+<div id="novidades" class="modal" hidden>
+  <div class="modal-card confirm-card" role="dialog" aria-modal="true" aria-labelledby="novidades-title">
+    <h2 id="novidades-title">Novidades</h2>
+    <p id="novidades-sub" class="muted"></p>
+    <ul id="novidades-lista" class="novidades-lista"></ul>
+    <div class="modal-actions">
+      <button id="novidades-ok" class="btn primary">Valeu!</button>
+    </div>
+  </div>
+</div>
+
+<div id="leave-confirm" class="modal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="leave-confirm-title">
+    <h2 id="leave-confirm-title">Sair da call?</h2>
+    <p class="muted">Você vai desconectar e os amigos vão ouvir o aviso de saída.</p>
+    <div class="modal-actions">
+      <button id="leave-confirm-stay" class="btn">Ficar</button>
+      <button id="leave-confirm-go" class="btn danger-btn">Sair da call</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mensagens privadas (funciona na call e no saguão) -->
+<button id="dm-launcher" class="dm-launcher" type="button" hidden>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span>Privado</span>
+  <span id="dm-badge" class="dm-badge" hidden>0</span>
+</button>
+<section id="dm" class="dm" aria-label="Mensagens privadas" hidden>
+  <div class="dm-head">
+    <div id="dm-tabs" class="dm-tabs"></div>
+    <button id="dm-close" class="dm-x" type="button" aria-label="Fechar mensagens privadas" title="Fechar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="dm-messages" class="messages dm-messages" aria-live="polite"></div>
+  <p id="dm-offline" class="muted small dm-offline" hidden></p>
+  <form id="dm-form" class="chat-form">
+    <label for="dm-input" class="sr">Mensagem privada</label>
+    <input id="dm-input" class="input" placeholder="Mensagem privada" maxlength="1000" autocomplete="off">
+    <button class="send-btn" type="submit" aria-label="Enviar mensagem privada">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+    </button>
+  </form>
+</section>
+
+<!-- Chamada privada: balão no canto (chamando, recebendo, em andamento) -->
+<div id="pcall" class="call-balloon" role="dialog" aria-live="polite" aria-labelledby="pcall-title" hidden>
+  <div class="cb-top">
+    <span id="pcall-avatar" class="msg-avatar" aria-hidden="true"></span>
+    <div class="cb-text">
+      <strong id="pcall-title">Call privada</strong>
+      <span id="pcall-text" class="muted small"></span>
+    </div>
+    <svg class="cb-phone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.89.33 1.76.63 2.6a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.84.3 1.71.51 2.6.63A2 2 0 0 1 22 16.92z"/></svg>
+  </div>
+  <div id="pcall-add-list" class="cb-list" hidden></div>
+  <div class="cb-actions">
+    <button id="pcall-add" class="btn small-btn" type="button" hidden>+ Adicionar</button>
+    <button id="pcall-cancel" class="btn small-btn" type="button" hidden>Cancelar</button>
+    <button id="pcall-decline" class="btn small-btn danger-btn" type="button" hidden>Recusar</button>
+    <button id="pcall-accept" class="btn small-btn primary" type="button" hidden>Atender</button>
+    <button id="pcall-end" class="btn small-btn danger-btn" type="button" hidden>Encerrar</button>
+  </div>
+</div>
+
+<!-- Menu de pessoa (botão direito no quadro) -->
+<div id="person-menu" class="person-menu" role="dialog" aria-labelledby="pm-name" hidden>
+  <strong id="pm-name"></strong>
+  <label for="pm-volume" class="row-between small"><span>Volume</span><span id="pm-volume-text">100%</span></label>
+  <input id="pm-volume" type="range" min="0" max="200" step="5">
+  <label class="toggle-row small">
+    <span>Silenciar para mim</span>
+    <input type="checkbox" id="pm-mute">
+  </label>
+  <label class="toggle-row small">
+    <span>Silenciar o som da tela</span>
+    <input type="checkbox" id="pm-share-mute">
+  </label>
+  <div class="pm-actions">
+    <button id="pm-dm" class="btn small-btn" type="button">Mensagem privada</button>
+    <button id="pm-pcall" class="btn small-btn" type="button">Chamar no privado</button>
+  </div>
+  <button id="pm-full" class="btn small-btn" type="button" hidden>Ver câmera em tela cheia</button>
+  <button id="pm-reset" class="link-btn">Voltar ao normal</button>
+</div>
+
+
+<!-- Minha conta -->
+<div id="conta" class="modal" hidden>
+  <div class="modal-card conta-card" role="dialog" aria-modal="true" aria-labelledby="conta-titulo">
+    <div class="row-between"><h2 id="conta-titulo">Minha conta</h2><button id="conta-fechar" class="icon-btn" aria-label="Fechar">✕</button></div>
+    <section class="card">
+      <div class="photo-row">
+        <span id="photo-preview" class="photo-preview" aria-hidden="true"></span>
+        <span class="stack">
+          <strong id="conta-usuario"></strong>
+          <span class="row"><span id="conta-cargo" class="tag-pill"></span><span id="conta-desde" class="muted small"></span></span>
+        </span>
+      </div>
+      <span class="row">
+        <label for="photo-input" class="btn small-btn">Trocar foto</label>
+        <button id="photo-remove" type="button" class="link-btn" hidden>Remover foto</button>
+      </span>
+      <input id="photo-input" type="file" accept="image/*" class="sr">
+      <p id="photo-erro" class="error" role="alert"></p>
+    </section>
+    <section class="card">
+      <span class="field-label">E-mail</span>
+      <strong id="conta-email"></strong>
+      <span class="muted small">Para trocar o e-mail, fale com um admin.</span>
+    </section>
+    <section class="card">
+      <form id="senha-form" class="auth-form">
+        <span class="field-label">Trocar senha</span>
+        <input id="senha-atual" class="input" type="password" maxlength="72" autocomplete="current-password" placeholder="Senha atual" required>
+        <input id="senha-nova1" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Senha nova (mínimo 8)" required>
+        <input id="senha-nova2" class="input" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Repetir senha nova" required>
+        <button class="btn primary" type="submit">Salvar senha</button>
+        <p id="senha-msg" class="error" role="alert"></p>
+      </form>
+    </section>
+    <div class="row-between wrap">
+      <button id="conta-membros" class="btn" hidden>Membros e convites</button>
+      <button id="conta-sair" class="btn danger-btn">Sair da conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Membros (só admin) -->
+<div id="membros" class="modal" hidden>
+  <div class="modal-card membros-card" role="dialog" aria-modal="true" aria-labelledby="membros-titulo">
+    <div class="row-between"><h2 id="membros-titulo">Membros</h2>
+      <span class="row"><button id="convite-gerar" class="btn primary small-btn">+ Gerar convite</button><button id="membros-fechar" class="icon-btn" aria-label="Fechar">✕</button></span></div>
+    <div id="convite-pronto" class="card convite-pronto" hidden>
+      <strong id="convite-pronto-titulo">Convite pronto</strong>
+      <span id="convite-pronto-texto" class="muted small">Mande este link para uma pessoa. Ele some quando ela criar a conta. Vence em 24 h.</span>
+      <code id="convite-link" class="convite-link"></code>
+      <span class="row"><button id="convite-copiar" class="btn primary small-btn">Copiar link</button><a id="convite-whats" class="btn small-btn" target="_blank" rel="noopener">WhatsApp</a></span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab-btn active" data-mtab="membros" role="tab" aria-selected="true">Membros</button>
+      <button type="button" class="tab-btn" data-mtab="convites" role="tab" aria-selected="false">Convites</button>
+    </div>
+    <div id="membros-lista" class="membros-lista"></div>
+    <div id="convites-lista" class="membros-lista" hidden></div>
+    <p id="membros-erro" class="error" role="alert"></p>
+  </div>
+</div>
+
+<script src="bundle.js?v=mvvhi62v"></script>
+</body>
+</html>
