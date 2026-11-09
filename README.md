@@ -16,6 +16,12 @@
 
 ---
 
+## Sobre este repositório
+
+Este é o canal público de distribuição do **Resenha**. Aqui ficam os instaladores e as notas de versão em [Releases](https://github.com/Alisonfrl/resenha-versoes/releases), além da hospedagem do [site oficial](https://resenhachat.online/) pelo GitHub Pages.
+
+O desenvolvimento do código-fonte acontece em um repositório privado separado. Não é necessário clonar este repositório para usar o Resenha: baixe o instalador ou abra o site pelos links acima.
+
 ## O que é
 
 O **Resenha** é o nosso canto para jogar junto: chamada de voz, câmera, tela compartilhada e chat, num programa só, feito para a nossa turma. Abre, vê quem está online e entra na call com um clique.
